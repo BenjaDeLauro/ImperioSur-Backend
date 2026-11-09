@@ -3,6 +3,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from decimal import Decimal
 from django.db import transaction
+from django.db.models import Prefetch
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
@@ -27,7 +28,9 @@ class PedidoViewSet(viewsets.ModelViewSet):
 
         return Pedido.objects.filter(
             usuario=self.request.user
-        ).prefetch_related("detalles").order_by("-fecha", "-id")
+        ).prefetch_related(
+            Prefetch("detalles", queryset=DetallePedido.objects.select_related("producto"))
+        ).order_by("-fecha", "-id")
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -107,4 +110,4 @@ class DetallePedidoViewSet(viewsets.ReadOnlyModelViewSet):
 
         return DetallePedido.objects.filter(
             pedido__usuario=self.request.user
-        ).order_by("id")
+        ).select_related("producto").order_by("id")

@@ -59,7 +59,11 @@ class Command(BaseCommand):
             )
             creados += int(nuevo)
             imagen = carpeta_imagenes / f'imperiosur-{slugify(estilo)}.png'
-            if not producto.imagen or es_foto_demo_anterior(producto.imagen, imagen.name):
+            imagen_demo_faltante = (
+                producto.imagen.name == f'productos/{imagen.name}'
+                and not producto.imagen.storage.exists(producto.imagen.name)
+            )
+            if not producto.imagen or imagen_demo_faltante or es_foto_demo_anterior(producto.imagen, imagen.name):
                 with imagen.open('rb') as archivo:
                     producto.imagen.save(imagen.name, File(archivo), save=False)
                 producto.save(update_fields=['imagen'])
