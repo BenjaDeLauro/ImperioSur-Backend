@@ -8,6 +8,7 @@ from .models import Pedido, DetallePedido
 
 
 class DetallePedidoSerializer(serializers.ModelSerializer):
+    producto_nombre = serializers.CharField(source="producto.nombre", read_only=True)
     subtotal = serializers.DecimalField(
         max_digits=20,
         decimal_places=2,
@@ -20,6 +21,7 @@ class DetallePedidoSerializer(serializers.ModelSerializer):
             "id",
             "pedido",
             "producto",
+            "producto_nombre",
             "cantidad",
             "precio_unitario",
             "subtotal",

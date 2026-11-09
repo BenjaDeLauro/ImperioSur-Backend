@@ -149,3 +149,10 @@ Esta versión reúne los aportes de modelos, administración, autenticación, AP
 La API registra ocho ViewSets: productos, categorías, marcas, presentaciones, proveedores, direcciones, pedidos y detalles de pedido. Los listados de productos y pedidos incluyen relaciones anidadas. Las acciones de pedidos permiten consultar el total y cancelar un pedido pendiente.
 
 Seguimos trabajando en los detalles de la consigna y en la verificación con el frontend. Los cambios posteriores se preparan en ramas de trabajo y se revisan antes de integrarlos a `main`.
+## Despliegue para la defensa
+
+En Render, creá un Blueprint con la rama que contiene `render.yaml`. Configurá `CORS_ALLOWED_ORIGINS` con el dominio HTTPS de ImperioSur en Vercel, sin barra final. Si el dominio todavía no está asignado, dejalo vacío durante el primer despliegue y completalo al crear el frontend.
+
+El Blueprint inicia Django con Gunicorn, crea una clave propia, usa PostgreSQL y carga seis productos de demostración. La base de datos pública es independiente de la base local. Usá la URL pública terminada en `/api/` para configurar Next.js.
+
+El plan gratuito de Render es para la demostración: la base de datos gratuita vence a los 30 días y el disco del servicio es temporal. Las fotos demo se restauran al arrancar; para conservar fotos subidas desde el panel se necesita un disco persistente o almacenamiento externo. Si el servicio está en reposo, abrí primero `/api/docs/` para que arranque antes de presentar.

@@ -9,6 +9,7 @@
 media
 data
 docs/capturas
+staticfiles
 .github
 .vscode
 .idea
