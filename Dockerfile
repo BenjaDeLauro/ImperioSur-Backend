@@ -14,8 +14,8 @@ RUN uv sync --locked --no-dev --no-install-project
 
 RUN groupadd --gid 10001 django \
     && useradd --uid 10001 --gid django --no-create-home django \
-    && mkdir -p /app/data /app/media \
-    && chown django:django /app/data /app/media
+    && mkdir -p /app/data /app/media /app/staticfiles \
+    && chown django:django /app/data /app/media /app/staticfiles
 
 COPY --chown=django:django . .
 USER django
